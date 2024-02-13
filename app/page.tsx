@@ -1,8 +1,10 @@
+import { Mail } from "lucide-react"
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
-    <p>
-      Hello World!
-    </p>
+    <Button variant="default" size="sm">
+      <Mail className="mr-2 h-4 w-4"/>Submit Mail
+    </Button>
   );
 }
