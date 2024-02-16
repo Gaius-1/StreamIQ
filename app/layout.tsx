@@ -3,6 +3,7 @@ import { dark } from '@clerk/themes';
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { ModeToggle } from '@/components/mode-toggle';
 
 import { ThemeProvider } from '@/components/theme-provider';
 
@@ -24,7 +25,14 @@ export default function RootLayout({
     }}>
       <html lang="en">
         <body className={inter.className}>
-          <ThemeProvider attribute="class" forcedTheme="dark" storageKey="hive-theme">
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange storageKey="hive-theme">
+            <div className="flex flex-col">
+              {/* ModeToggle component positioned at the far right corner */}
+              <div className="flex-grow"></div>
+              <div className="fixed bottom-4 right-4 z-50">
+                <ModeToggle />
+              </div>
+            </div>
             {children}
           </ThemeProvider>
         </body>
