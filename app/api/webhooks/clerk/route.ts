@@ -1,6 +1,7 @@
 import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import { WebhookEvent } from '@clerk/nextjs/server'
+import { db } from '@/lib/db'
  
 export async function POST(req: Request) {
  
@@ -47,12 +48,52 @@ export async function POST(req: Request) {
     })
   }
  
-  // Get the ID and type
-  const { id } = evt.data;
-  const eventType = evt.type;
- 
-  console.log(`Webhook with and ID of ${id} and type of ${eventType}`)
-//   console.log('Webhook body:', body)
+    //  create a new model after we receive an event of user.created
+    const eventType = evt.type;
+
+    // Event to handle when the user signs up
+    if (eventType === "user.created") {
+      await db.user.create({
+        data: {
+            externalUserId: payload.data.id,
+            username: payload.data.username,
+            imageUrl: payload.data.image_url,
+        }
+      });
+    }
+
+    // Event to handle when the user issues to update their account details
+    if (eventType === "user.updated") {
+      const currentUser = await db.user.findUnique({
+        where: {
+            externalUserId: payload.data.id,
+        }
+      })
+
+      if (!currentUser) {
+        return new Response("User not found", { status: 404 });
+      }
+
+      await db.user.update({
+        where: {
+            externalUserId: payload.data.id,
+        },
+        
+        data: {
+            username: payload.data.username,
+            imageUrl: payload.data.image_url,
+        }
+      })
+    }
+
+    // Event to handle when the user issues a command to delete thier account
+    if (eventType === "user.deleted") {
+      await db.user.delete({
+        where: {
+            externalUserId: payload.data.id,
+        },
+      });
+    }
  
   return new Response('', { status: 200 })
 }
