@@ -18,7 +18,7 @@ export const Logo = () => {
                     width="50"/>
             </div>
             <div className={cn("flex flex-col items-center", font.className,)}>
-                <p className="text-xl font-semibold">Hive</p>
+                <p className="text-xl font-semibold">Hive.io</p>
                 <p className="text-sm text-muted-foreground">Learn, Code & Network</p>
             </div>
         </div> 
