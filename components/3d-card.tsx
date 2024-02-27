@@ -43,7 +43,7 @@ export function ThreeDCard() {
             as="button"
             className="px-4 py-2 rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-bold"
           >
-            Sign up
+            <a href="/sign-up">Sign up</a>
           </CardItem>
         </div>
       </CardBody>
