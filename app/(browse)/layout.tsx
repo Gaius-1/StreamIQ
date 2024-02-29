@@ -1,4 +1,6 @@
+import { Container } from './_components/container';
 import { Navbar } from './_components/navbar';
+import { Sidebar } from './_components/sidebar';
 
 const BrowseLayout = ({
     children,
@@ -8,8 +10,11 @@ const BrowseLayout = ({
     return (
         <>
             <Navbar />
-            <div className="h-full">
-                {children}
+            <div className="pt-20 h-full">
+                <Sidebar />
+                <Container>
+                    {children}
+                </Container>
             </div>
         </>
     );
